@@ -59,6 +59,9 @@ a {
 #header-area h1 span:nth-child(2) {
   color: #41bd9a;
 }
+#header-area h1 span:nth-child(3) {
+  color: #e1306d;
+}
 
 #nav-area {
   grid-area: n;
