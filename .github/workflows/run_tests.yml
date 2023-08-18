@@ -2,20 +2,29 @@ name: remote update
 
 on: push
 jobs:
-  test:
-    name: Test
+  build:
+    name: Build
     # Specify on which operating system we want this workflow to run
     runs-on: ubuntu-20.04
     # The steps that will be excuted
     steps:
       - name: Configure SSH
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_SECRET_KEY }}
-          known_hosts: "just-a-placeholder"
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_SECRET_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+        run: |
+          mkdir -p ~/.ssh/
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+          echo "$SSH_KEY" > ~/.ssh/github_actions
+          chmod 600 ~/.ssh/github_actions
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add ~/.ssh/github_actions
 
-      - name: Adding Known Hosts
-        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+      - name: Build and deploy
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: mkdir berenboot
 
-      - name: Execute ls -la
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} touch berekak.txt
+        # env:
+        #   SSH_USER: ${{ secrets.SSH_USER }}
