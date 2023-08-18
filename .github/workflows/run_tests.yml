@@ -26,4 +26,4 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
 
       - name: Stop the server
-        run: ssh staging 'sude system.ctl stop nginx'
+        run: ssh staging 'sudo system.ctl stop nginx'
