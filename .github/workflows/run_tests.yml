@@ -23,7 +23,7 @@ jobs:
       - name: Build and deploy
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} mkdir berenboot
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} mkdir berenschip
 
         # env:
         #   SSH_USER: ${{ secrets.SSH_USER }}
