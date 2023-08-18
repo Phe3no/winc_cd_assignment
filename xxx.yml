@@ -1,0 +1,27 @@
+name: remote update
+
+on: push
+jobs:
+  build:
+    name: Build
+    # Specify on which operating system we want this workflow to run
+    runs-on: ubuntu-20.04
+    # The steps that will be excuted
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/staging.key
+          chmod 600 ~/.ssh/staging.key
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/staging.key
+            StrictHostKeyChecking no
+          END
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} ls -la
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_SECRET_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
