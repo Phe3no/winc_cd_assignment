@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+<!-- title -->
+{% block title %}Home{% endblock %}
+<!-- content -->
+{% block content%}
+<main id="main-area">
+  <article>
+    <h1>
+      Creating Continuous Integration and Continuous Delivery with GitHub
+      Actions
+    </h1>
+    <hr />
+    <p>
+      Although there are a number of third party actions to be found, I have
+      decided not to use them.<br />
+      For this I used a private server from DigitalOcean. <br />
+      Get it up and running, then follow the steps I made.
+    </p>
+
+    <h3>Step 1: Generate an SSH Key</h3>
+    <hr />
+    <p>
+      Do this on the private server.<br />
+      SSH into the server with the following command. (You should already know
+      this!)
+    </p>
+    <code>ssh username@host.com</code>
+    <p>
+      When you are in the server cd into the <em>.shh</em> folder, where we
+      create the SSH key.
+    </p>
+    <code>cd ~/.shh</code>
+    <p>Create the SSH key using the following command.</p>
+    <code>ssh-keygen -t ed25519 -C "your_email@example.com"</code>
+    <p>
+      After that we will need to name the SSH Key file. I used the name
+      <em>github-actions</em> so I know this key is used for Github Actions.
+      <br />
+      You are also be asked to provide a passphrase. Just leave this empty,
+      because you can't enter passwords when Github Actions run the SSH command.
+      <br />
+      If you use the <em>ls</em> command, you should see your key in the
+      <em>.ssh</em> folder. The public key has a <em>.pub</em> extension while
+      the private key does not. <br />
+      <code>ls</code>
+    </p>
+
+    <h3>Step 2: Adding the Public Key to authorized_keys</h3>
+    <hr />
+    <p>
+      We need to add the public key <em>github-actions.pub</em> to the private
+      servers <em>authorized_keys</em> so machines using the private key
+      <em>github-actions</em> can access the server. <br />
+      We can easily do that using the <em>cat</em> command to append
+      <em>github-actions.pub</em> to <em>authorized_keys</em>. <br />
+    </p>
+    <code>cat github-actions.pub >> ~/.ssh/authorized_keys</code>
+    <p>
+      This command grabs the content of <em>github-actions.pub</em> with
+      <em>cat</em> end appends it to <em>authorized_keys</em> with <em>>></em>.
+      Be sure to use <em>>></em> and not <em>></em> because a single bracket
+      will overwrite the <em>authorized_keys</em> file.
+    </p>
+
+    <h3>Step 3: Adding the private key to your repository's secrets</h3>
+    <hr />
+    <p>
+      Go to your repository on Github and click on <em>Settings</em> then
+      <em>Secrets and variables</em> and click <em>Actions</em>. On the right
+      side you can add a new repository secret by clicking
+      <em>New repository secret</em>. <br />
+      You have to specify a secret name and the contents. Later, in the Github
+      Action workflow, you will use the secret name to get the contents. Write
+      your secret name in uppercase and underscores as spaces. This is a format
+      usually used for specifying secrets. <br />
+      In this case I chose <em>SSH_PRIVATE_KEY</em> For the value we need to go
+      back to the server and open <em>github-actions</em> using <em>Nano</em>.
+    </p>
+    <code>nano github-actions</code>
+    <p>
+      Select evertything from <em>-----BEGIN .....</em> to
+      <em>.....PRIVATE KEY-----</em> and copy with <em>Alt and 6</em>. Then
+      paste it in the secret value at github and click <em>Add secret</em>.
+      <br />
+      You will find your new secret under the <em>Repository secrets</em>.
+    </p>
+
+    <h3>
+      Step 4: Adding the hostname and the username to your repository's secrets
+    </h3>
+    <hr />
+    <p>
+      If we want to connect the Github repository with our server we will have
+      to create to more secrets. <br />
+      One for the hostname, our servers ip address, and one for the username.
+      <br />
+      Create a new secret a github as descriped before. <br />
+      For the hostname use <em>SSH_HOST</em>, in the value field enter the ip
+      adress of your server. <br />
+      For the username use <em>SSH_USER</em>, in the value field enter tour
+      username. <br />
+    </p>
+
+    <h3>Step 5: Writing the Github workflow</h3>
+    <hr />
+  </article>
+</main>
+{% endblock%}

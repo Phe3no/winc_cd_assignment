@@ -55,7 +55,7 @@ jobs:
     name: Job 3
     # runs only if the steps of job2 succeeded
     needs: job2
-    # now it will always but waits for job2 to be finished even wenn it fails
+    # now it will always run but waits for job2 to be finished even wenn it fails
     if: ${{ always() }}
     runs-on: ubuntu-latest
     # The steps that will be excuted
