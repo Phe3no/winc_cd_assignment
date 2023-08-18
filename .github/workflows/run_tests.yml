@@ -40,7 +40,8 @@ jobs:
           dir
           ls -la
 
-#       - name: connect and pull
+  #       - name: connect and pull
+
 #         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
 #       - name: cleanup
 #         run: rm -rf ~/.ssh
