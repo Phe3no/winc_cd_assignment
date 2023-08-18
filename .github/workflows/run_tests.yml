@@ -26,5 +26,5 @@ jobs:
             ${{ secrets.SSH_HOST }}
       
       - name: deploy with rsync
-        run rsync -avz ./readme.md ${{ secrets.SSH_USER }}@${{ secrets.ssh_HOST }}:/home/examples/
+        run rsync -avz ./readme.md ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/examples/
             #StrictHostKeyChecking no
