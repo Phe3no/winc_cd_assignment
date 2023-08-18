@@ -53,6 +53,7 @@ jobs:
 
   job3:
     name: Job 3
+    needs: job2
     if: ${{ always() }}
     runs-on: ubuntu-latest
     # The steps that will be excuted
