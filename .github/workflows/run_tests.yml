@@ -27,8 +27,8 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v3
-      
+
       - name: Show workspace
-        run |
+        run: |
           cd $GITHUB_WORKSPACE
           pwd
