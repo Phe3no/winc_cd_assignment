@@ -23,7 +23,7 @@ jobs:
       - name: Build and deploy
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
+        run:
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} bash scriptsample.sh
           && systemctl status farm
 
