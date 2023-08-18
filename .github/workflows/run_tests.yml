@@ -24,5 +24,11 @@ jobs:
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} bash scriptsample.sh
-        # env:
-        #   SSH_USER: ${{ secrets.SSH_USER }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Show workspace
+        run |
+          cd $GITHUB_WORKSPACE
+          pwd
