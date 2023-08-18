@@ -24,5 +24,7 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_SECRET_KEY }}
           SSH_HOST:
             ${{ secrets.SSH_HOST }}
-
+      
+      - name: deploy with rsync
+        run rsync -avz ./readme.md ${{ secrets.SSH_USER }}@${{ secrets.ssh_HOST }}:/home/examples/
             #StrictHostKeyChecking no
