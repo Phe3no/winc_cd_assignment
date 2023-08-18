@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     # The steps that will be excuted
     steps:
-      - name: Configure SSH
+      - name: Configure SSH connection
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
           SSH_KEY: ${{ secrets.SSH_PRIVATE_SECRET_KEY }}
@@ -38,12 +38,12 @@ jobs:
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
           ssh-add ~/.ssh/github_actions
 
-      - name: CD Project
+      - name: Connect and pull
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run:
           #ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} bash scriptsample.sh
-          ssh ${{ secrets.SSH_USE }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }}
+          ssh ${{ secrets.SSH_USEr }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }}
           && git checkout ${{ secrets.MAIN_BRANCH }}
           && git pull
           && exit"
@@ -53,15 +53,12 @@ jobs:
 
   job3:
     name: Job 3
+    # runs only if the steps of job2 succeeded
     needs: job2
+    # now it will always but waits for job2 to be finished even wenn it fails
     if: ${{ always() }}
     runs-on: ubuntu-latest
     # The steps that will be excuted
     steps:
       - name: Thank you message
-        run: echo "Thanks for everything"
-
-  #       - name: connect and pull
-#         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
-#       - name: cleanup
-#         run: rm -rf ~/.ssh
+        run: echo "Thanks for everything!"
