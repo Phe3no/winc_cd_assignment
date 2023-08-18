@@ -23,7 +23,9 @@ jobs:
       - name: Build and deploy
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} bash scriptsample.sh
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} bash scriptsample.sh
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} systemctl status Nginx
 
       - name: Checkout repository
         uses: actions/checkout@v3
