@@ -4,7 +4,7 @@ on: push
 jobs:
   test:
     name: Test
-    # Specify on which operating system we want this workflow to run
+    # Specify on which operating system we want this workflow to run oke
     runs-on: ubuntu-20.04
     # The steps that will be excuted
     steps:
