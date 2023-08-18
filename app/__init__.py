@@ -7,6 +7,7 @@ def create_app(test_config=None):
     app.config.from_mapping(
         DATABASE=os.path.join(app.instance_path, 'app.db'),
     )
+    print(app.config)
 
     if test_config is False:
         # load the instance config, if it exists, when not testing
