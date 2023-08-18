@@ -3,7 +3,25 @@ name: remote update
 on: push
 jobs:
   job1:
-    name: Job 1
+    name: CI Project
+    # Specify on which operating system we want this workflow to run
+    runs-on: ubuntu-latest
+    # The steps that will be excuted
+    steps:
+      - name: Test 1
+        uses: actions/checkout@v3
+
+      - name: Show workspace
+        run: |
+          cd $GITHUB_WORKSPACE
+          pwd
+          dir
+          ls -la
+
+  job2:
+    name: Job 2
+    # runs only if the steps of job1 succeeded
+    needs: job1
     # Specify on which operating system we want this workflow to run
     runs-on: ubuntu-latest
     # The steps that will be excuted
@@ -20,13 +38,7 @@ jobs:
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
           ssh-add ~/.ssh/github_actions
 
-  job2:
-    name: Job 2
-    needs: job1
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Pull repository
+      - name: CD Project
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run:
@@ -36,24 +48,19 @@ jobs:
           && git pull
           && exit"
 
+      - name: cleanup
+        run: rm -rf ~/.ssh
+
   job3:
     name: Job 3
-    needs: job2
+    if: ${{ always() }}
     runs-on: ubuntu-latest
-
+    # The steps that will be excuted
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Show workspace
-        run: |
-          cd $GITHUB_WORKSPACE
-          pwd
-          dir
-          ls -la
+      - name: Thank you message
+        run: echo "Thanks for everything"
 
   #       - name: connect and pull
-
 #         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
 #       - name: cleanup
 #         run: rm -rf ~/.ssh
