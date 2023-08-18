@@ -2,10 +2,10 @@ name: remote update
 
 on: push
 jobs:
-  build:
-    name: Build
+  job1:
+    name: Job 1
     # Specify on which operating system we want this workflow to run
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     # The steps that will be excuted
     steps:
       - name: Configure SSH
@@ -20,7 +20,13 @@ jobs:
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
           ssh-add ~/.ssh/github_actions
 
-      - name: Build and deploy
+  job2:
+    name: Job 2
+    needs: job1
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Pull repository
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run:
@@ -30,6 +36,12 @@ jobs:
           && git pull
           && exit"
 
+  job3:
+    name: Job 3
+    needs: job2
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
