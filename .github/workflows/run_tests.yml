@@ -12,9 +12,10 @@ jobs:
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
           SSH_KEY: ${{ secrets.SSH_PRIVATE_SECRET_KEY }}
+          SSH_HOST: ${{ secrets.SSH_PRIVATE_SECRET_KEY }}
         run: |
           mkdir -p ~/.ssh/
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+          ssh-keyscan -H "SSH_HOST" > ~/.ssh/known_hosts
           echo "$SSH_KEY" > ~/.ssh/github_actions
           chmod 600 ~/.ssh/github_actions
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null
