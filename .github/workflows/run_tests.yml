@@ -24,8 +24,11 @@ jobs:
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run:
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} bash scriptsample.sh
-          && mkdir berendbotje
+          #ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} bash scriptsample.sh
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }}
+          && git checkout ${{ secrets.MAIN_BRANCH }}
+          && git pull
+          && exit"
 
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -36,3 +39,8 @@ jobs:
           pwd
           dir
           ls -la
+
+#  - name: connect and pull
+#       run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
+#     - name: cleanup
+#       run: rm -rf ~/.ssh
