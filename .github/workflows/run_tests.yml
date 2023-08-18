@@ -20,10 +20,8 @@ jobs:
             IdentityFile ~/.ssh/staging.key
             StrictHostKeyChecking no
           END
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} ls -la
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KEY: ${{ secrets.SSH_PRIVATE_SECRET_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
-
-      - name: Stop the server
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} ls -la
