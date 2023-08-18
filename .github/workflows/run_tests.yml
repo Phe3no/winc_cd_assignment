@@ -25,7 +25,7 @@ jobs:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} bash scriptsample.sh
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} systemctl status farm
+          && systemctl status farm
 
       - name: Checkout repository
         uses: actions/checkout@v3
