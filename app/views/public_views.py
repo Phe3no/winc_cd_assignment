@@ -81,7 +81,7 @@ def register():
                 item.save()
             except IntegrityError:
                 error = f"User {username} is already registered."
-            except DatabaseError as oe:
+            except Exception as oe:
                 error = f"Can not write to the datatbase. Error message {oe}"
             else:
                 return redirect(url_for("home.login"))
