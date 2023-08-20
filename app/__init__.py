@@ -10,7 +10,7 @@ def create_app(test_config=None):
     print(app.config)
 
     if test_config is False:
-        # load the instance config, if it exists, when not testing
+         # load the instance config, if it exists, when not testing
         app.config.from_mapping("config.py", silent=True)
     else:
         # load the test congig if passed in
