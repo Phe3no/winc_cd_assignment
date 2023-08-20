@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, flash, g, url_for, session
 from ..database.models.user import User
 from werkzeug.security import check_password_hash, generate_password_hash
-from peewee import IntegrityError, DoesNotExist, OperationalError
+from peewee import IntegrityError, DoesNotExist, OperationalError, DatabaseError
 
 bp = Blueprint("home", __name__)
 
@@ -81,7 +81,7 @@ def register():
                 item.save()
             except IntegrityError:
                 error = f"User {username} is already registered."
-            except OperationalError as oe:
+            except DatabaseError as oe:
                 error = f"Can not write to the datatbase. Error message {oe}"
             else:
                 return redirect(url_for("home.login"))
